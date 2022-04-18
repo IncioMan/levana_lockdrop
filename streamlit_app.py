@@ -10,14 +10,6 @@ from replit.database import Database
 # main body
 st.header("Alpha Astro Tool")
 
-# description
-st.sidebar.write(
-    """
-    Made by [@lejimmy](https://twitter.com/lejimmy) and [@danku_r](https://twitter.com/danku_r).
-
-    Accompanying YouTube video [here](https://www.youtube.com/watch?v=3gv4D_jcjNk).
-    """
-)
 
 st.markdown(
     """
@@ -28,9 +20,7 @@ st.markdown(
 """
 )
 
-st.info(
-    "To support more community tools like this, consider delegating to the [GT Capital Validator](https://station.terra.money/validator/terravaloper1rn9grwtg4p3f30tpzk8w0727ahcazj0f0n3xnk)."
-)
+
 
 st.markdown(
     """### Terraswap Liquidity
@@ -38,10 +28,6 @@ st.markdown(
 Current pair liquidity on Terraswap, $ASTRO token to liquidity ratio, and current LP incentives.
 
 """
-)
-
-st.warning(
-    "As Phase 1 has ended, this tool is no longer being updated. Please visit the latest Astroport phase at: https://lockdrop.astroport.fi/"
 )
 
 # stop
