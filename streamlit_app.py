@@ -14,7 +14,7 @@ st.set_page_config(page_title="Levana - Lockdrop Calculator",\
         layout='wide')
 
 st.markdown(f"""
-<div class="banner" style=\"max-width: 200px;float: left;z-index: 1; padding-top: 20px;\">
+<div class="banner" style=\"width: 100%;float: left;z-index: 1;\">
     <a href="https://app.neb.money/">
         <img src="https://raw.githubusercontent.com/IncioMan/levana_lockdrop/master/images/logo.svg" style=\"margin-left: 5px;\" width=\"200px\">
     </a>
@@ -50,3 +50,45 @@ with col15:
     st.number_input('15 Months_', step=10, min_value=0)
 with col18:
     st.number_input('18 Months_', step=10, min_value=0)
+
+st.markdown("""
+    <style>
+    .css-1nnn0hm input {
+        text-align: center;
+    }
+    .st-cl {
+        background: transparent;
+        border: none;
+        text-align: center;
+    }
+    .st-ck {
+        background: transparent;
+        border: none;
+        border-bottom: solid;
+        border-radius: 0px;
+        text-align: center;
+    }
+    .st-bw{
+        border: none;
+        border-bottom: solid;
+        border-radius: 0px;
+        background:none;
+    }
+    .st-bt{
+        border: none;
+        border-bottom: solid;
+        border-radius: 0px;
+        background:none;
+    }
+    .css-1nnn0hm {
+        display: flex;
+        flex-flow: row nowrap;
+        -webkit-box-align: center;
+        align-items: center;
+        background: transparent;
+    }
+    .css-u3o8cc {
+        display: none;
+    }
+    </style>
+    """, unsafe_allow_html=True)
