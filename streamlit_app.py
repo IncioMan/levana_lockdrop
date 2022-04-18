@@ -3,9 +3,17 @@ import random
 import requests
 import numpy as np
 import pandas as pd
+from PIL import Image
 import streamlit as st
 import seaborn as sns
 from replit.database import Database
+
+
+st.set_page_config(page_title="Levana - Lockdrop Calculator",\
+        page_icon=Image.open(requests.get('https://raw.githubusercontent.com/IncioMan/levana_lockdrop/master/images/favicon.ico',stream=True).raw),\
+        layout='wide')
+
+###
 
 # main body
 st.header("Alpha Astro Tool")
