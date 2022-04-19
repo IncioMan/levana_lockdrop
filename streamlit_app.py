@@ -70,6 +70,32 @@ with col18:
     st.text(weights[5])
 st.text("")
 st.text("")
+
+total_deposit_ust = ml3m + ml6m+ml9m + ml12m+ml15m + ml18m+\
+                    ee3m + ee6m+ee9m + ee12m+ee15m + ee18m
+my_total_deposit_ust_weighted = ml3m * weights[0] +\
+                             ml6m * weights[1] +\
+                             ml9m * weights[2] +\
+                             ml12m * weights[3]+\
+                             ml15m * weights[4]+\
+                             ml18m * weights[5]
+others_total_deposit_ust_weighted = ee3m * weights[0] +\
+                             ee6m * weights[1] +\
+                             ee9m * weights[2] +\
+                             ee12m * weights[3]+\
+                             ee15m * weights[4]+\
+                             ee18m * weights[5]
+total_deposit_ust_weighted = my_total_deposit_ust_weighted + others_total_deposit_ust_weighted
+
+col0,col1,col36,col912,col1518,col00 = st.columns([0.5,2,4,4,4,1])
+with col36:
+    st.metric('Total Deposit (UST)', value=f"${total_deposit_ust/1000}k")
+with col912:
+    st.metric('Total Weighted Deposit (UST)', value=f"${total_deposit_ust_weighted/1000}k")
+with col1518:
+    st.metric('Your Share Of Weighted Deposit',
+                value=f"{round((my_total_deposit_ust_weighted/total_deposit_ust_weighted)*100,2)}%")
+
 col0,col1,col36,col9,col1215,col18,col00 = st.columns([0.5,2,4,2,4,2,1])
 with col36:
     st.markdown("""Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -80,9 +106,8 @@ with col1215:
     st.markdown("""Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.""", unsafe_allow_html=True)
 with col18:
-    total_deposit_ust = ml3m + ml6m+ml9m + ml12m+ml15m + ml18m+\
-                        ee3m + ee6m+ee9m + ee12m+ee15m + ee18m
     st.metric('Total Deposit (UST)', value=f"{total_deposit_ust/1000}k $")
+
 st.markdown("""
     <style>
     .css-1nnn0hm input {
