@@ -21,7 +21,7 @@ st.set_page_config(
 st.markdown(
     f"""
     <div class="banner" style=\"width: 100%;padding-bottom:48px;float: left;z-index: 1;display: flex;justify-content:center;\">
-        <a href="https://app.neb.money/">
+        <a href="https://www.levana.finance/">
             <img src="https://raw.githubusercontent.com/IncioMan/levana_lockdrop/master/images/logo.svg" style=\"margin-left: 5px;\" width=\"200px\">
         </a>
     </div>
@@ -136,10 +136,14 @@ total_deposit_ust_weighted = (
 )
 
 total_lvn = 35_000_000
-col0, col1, col3, col6, col9, col12, col15, col18, col00 = st.columns(
-    [0.5, 2, 2, 2, 2, 2, 2, 2, 1]
-)
-with col9:
+
+st.text("")
+st.text("")
+st.text("")
+st.text("")
+
+col0, col1, col36, col912, col1518, col3, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
+with col36:
     lvn_price = st.number_input(
         "LVN Price",
         key="lvnprice",
@@ -158,19 +162,8 @@ try:
     my_roi = my_lvn_tokens_ust / my_total_deposit_ust
 except ZeroDivisionError:
     my_roi = 0
-
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-
-col0, col1, col36, col912, col1518, col3, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
-with col36:
-    st.metric("Your Deposit (UST)", value=f"${my_total_deposit_ust:,.0f}")
 with col912:
-    st.metric(
-        "Your Weighted Deoposit (UST)", value=f"${my_total_deposit_ust_weighted:,.0f}"
-    )
+    st.metric("Your Deposit (UST)", value=f"${my_total_deposit_ust:,.0f}")
 
 with col1518:
     st.metric("Total Deposit (UST)", value=f"${total_deposit_ust:,.0f}")
@@ -256,6 +249,10 @@ st.markdown(
     .css-u3o8cc {
         display: none;
     }
+    .css-1ht1j8u{
+        font-family: sans-serif;
+        text-align: center;
+    }
     .css-18l8pcm{
         justify-content: center;
         color: #e085d9;
@@ -277,7 +274,12 @@ st.markdown(
         text-align: center;
         color: #e085d9;
     }
-
+    [data-testid="stMetricLabel"]{
+        font-size: 15px
+    }
+    [data-testid="stMetricValue"]{
+        font-size: 20px
+    }
     </style>
     """,
     unsafe_allow_html=True,
