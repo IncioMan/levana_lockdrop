@@ -53,17 +53,25 @@ col0, col1, col3, col6, col9, col12, col15, col18, col00 = st.columns(
 with col1:
     st.markdown("##### Everyone elses", unsafe_allow_html=True)
 with col3:
-    ee3m = st.number_input("3 Months", value=1000, key="ee3m", step=10, min_value=0)
+    ee3m = st.number_input(
+        "3 Months", value=3_000_000, key="ee3m", step=10, min_value=0
+    )
 with col6:
-    ee6m = st.number_input("6 Months", value=1000, key="ee6m", step=10, min_value=0)
+    ee6m = st.number_input("6 Months", value=250_000, key="ee6m", step=10, min_value=0)
 with col9:
-    ee9m = st.number_input("9 Months", value=1000, key="ee9m", step=10, min_value=0)
+    ee9m = st.number_input("9 Months", value=250_000, key="ee9m", step=10, min_value=0)
 with col12:
-    ee12m = st.number_input("12 Months", value=1000, key="ee12m", step=10, min_value=0)
+    ee12m = st.number_input(
+        "12 Months", value=250_000, key="ee12m", step=10, min_value=0
+    )
 with col15:
-    ee15m = st.number_input("15 Months", value=1000, key="ee15m", step=10, min_value=0)
+    ee15m = st.number_input(
+        "15 Months", value=250_000, key="ee15m", step=10, min_value=0
+    )
 with col18:
-    ee18m = st.number_input("18 Months", value=1000, key="ee18m", step=10, min_value=0)
+    ee18m = st.number_input(
+        "18 Months", value=10_000_000, key="ee18m", step=10, min_value=0
+    )
 
 st.text("")
 st.text("")
@@ -104,6 +112,9 @@ total_deposit_ust = (
     + ee15m
     + ee18m
 )
+
+my_total_deposit_ust = ml3m + ml6m + ml9m + ml12m + ml15m + ml18m
+
 my_total_deposit_ust_weighted = (
     ml3m * weights[0]
     + ml6m * weights[1]
@@ -124,37 +135,83 @@ total_deposit_ust_weighted = (
     my_total_deposit_ust_weighted + others_total_deposit_ust_weighted
 )
 
-col0, col1, col36, col912, col1518, col00 = st.columns([0.5, 2, 4, 4, 4, 1])
+total_lvn = 35_000_000
+col0, col1, col3, col6, col9, col12, col15, col18, col00 = st.columns(
+    [0.5, 2, 2, 2, 2, 2, 2, 2, 1]
+)
+with col9:
+    lvn_price = st.number_input(
+        "LVN Price",
+        key="lvnprice",
+        value=1.0,
+        step=0.1,
+        min_value=0.1,
+    )
+
+my_percent_weighted = my_total_deposit_ust_weighted / total_deposit_ust_weighted
+
+my_lvn_tokens = my_percent_weighted * total_lvn
+
+my_lvn_tokens_ust = my_lvn_tokens * lvn_price
+
+try:
+    my_roi = my_lvn_tokens_ust / my_total_deposit_ust
+except ZeroDivisionError:
+    my_roi = 0
+
+st.text("")
+st.text("")
+st.text("")
+st.text("")
+
+col0, col1, col36, col912, col1518, col3, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
 with col36:
-    st.metric("Total Deposit (UST)", value=f"${total_deposit_ust/1000}k")
+    st.metric("Your Deposit (UST)", value=f"${my_total_deposit_ust:,.0f}")
 with col912:
     st.metric(
-        "Total Weighted Deposit (UST)", value=f"${total_deposit_ust_weighted/1000}k"
-    )
-with col1518:
-    st.metric(
-        "Your Share Of Weighted Deposit",
-        value=f"{round((my_total_deposit_ust_weighted/total_deposit_ust_weighted)*100,2)}%",
+        "Your Weighted Deoposit (UST)", value=f"${my_total_deposit_ust_weighted:,.0f}"
     )
 
-col0, col1, col36, col9, col1215, col18, col00 = st.columns([0.5, 2, 4, 2, 4, 2, 1])
+with col1518:
+    st.metric("Total Deposit (UST)", value=f"${total_deposit_ust:,.0f}")
+
+with col3:
+    st.metric(
+        "Total Weighted Deposit (UST)",
+        value=f"${total_deposit_ust_weighted:,.0f}",
+    )
+
+st.text("")
+st.text("")
+
+col0, col1, col36, col9, col1215, col18, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
 with col36:
-    st.markdown(
-        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.""",
-        unsafe_allow_html=True,
+    st.metric(
+        "Your LVN Tokens",
+        value=f"{my_lvn_tokens:,.0f}",
     )
 with col9:
-    st.number_input("LVN Price", key="lvnprice", value=1.0, step=1.0, min_value=0.0)
-with col1215:
-    st.markdown(
-        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.""",
-        unsafe_allow_html=True,
+    st.metric(
+        "Your LVN Tokens (UST)",
+        value=f"${my_lvn_tokens_ust:,.0f}",
     )
-with col18:
-    st.metric("Total Deposit (UST)", value=f"{total_deposit_ust/1000}k $")
 
+with col1215:
+    st.metric(
+        "Your Share Of Weighted Deposit",
+        value=f"{my_percent_weighted*100:,.4f}%",
+    )
+
+with col18:
+
+    st.metric(
+        "Your ROI",
+        value=f"{my_roi:,.4f}%",
+    )
+
+
+#
+total_lvn_tokens = 35_000_000
 
 st.markdown(
     """
@@ -220,6 +277,7 @@ st.markdown(
         text-align: center;
         color: #e085d9;
     }
+
     </style>
     """,
     unsafe_allow_html=True,
