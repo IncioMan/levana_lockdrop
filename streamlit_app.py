@@ -199,14 +199,14 @@ with col9:
 with col1215:
     st.metric(
         "Your Share Of Weighted Deposit",
-        value=f"{my_percent_weighted*100:,.4f}%",
+        value=f"{my_percent_weighted*100:,.3f}%",
     )
 
 with col18:
 
     st.metric(
         "Your ROI",
-        value=f"{my_roi:,.4f}%",
+        value=f"{my_roi:,.2f}x",
     )
 
 
