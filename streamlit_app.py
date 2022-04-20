@@ -5,6 +5,33 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 import streamlit as st
+import altair as alt
+
+def simulation_apr_chart(df, color='redpurple'):
+    ust_duration_chart = alt.Chart(df).mark_bar().encode(
+                        y=alt.Y(field="ROI", type="quantitative"),
+                        x=alt.X(field="Lockup period", type="nominal", axis=alt.Axis(labelAngle=0),
+                                sort=['3 months','6 months',
+                                      '9 months','12 months',
+                                      '15 months','18 months']),
+                        color=alt.Color(field="Lockup period", type="nominal",
+                                sort=['3 months','6 months',
+                                      '9 months','12 months',
+                                      '15 months','18 months'],
+                                scale=alt.Scale(scheme=color),
+                                legend=None),
+                            tooltip=["ROI x","Lockup period"]
+                        )
+    text = ust_duration_chart.mark_text(
+            align='center',
+            baseline='middle',
+            dy=-15,  # Nudges text to right so it doesn't appear on top of the bar
+            fontSize=25
+        ).encode(
+            text='ROI x:N'
+        )
+
+    return (ust_duration_chart + text).properties(width=400).configure_view(strokeOpacity=0)
 
 
 st.set_page_config(
@@ -138,11 +165,11 @@ total_deposit_ust_weighted = (
 total_lvn = 35_000_000
 
 st.text("")
-st.text("")
-st.text("")
-st.text("")
 
-col0, col1, col36, col912, col1518, col3, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
+my_percent_weighted = my_total_deposit_ust_weighted / total_deposit_ust_weighted
+my_lvn_tokens = my_percent_weighted * total_lvn
+
+col0, col1, col36, col912, col2, col00 = st.columns([0.5, 2,4,4,8, 1])
 with col36:
     lvn_price = st.number_input(
         "LVN Price",
@@ -151,64 +178,63 @@ with col36:
         step=0.1,
         min_value=0.1,
     )
-
-my_percent_weighted = my_total_deposit_ust_weighted / total_deposit_ust_weighted
-
-my_lvn_tokens = my_percent_weighted * total_lvn
-
-my_lvn_tokens_ust = my_lvn_tokens * lvn_price
-
-try:
-    my_roi = my_lvn_tokens_ust / my_total_deposit_ust
-except ZeroDivisionError:
-    my_roi = 0
-with col912:
-    st.metric("Your Deposit (UST)", value=f"${my_total_deposit_ust:,.0f}")
-
-with col1518:
-    st.metric("Total Deposit (UST)", value=f"${total_deposit_ust:,.0f}")
-
-with col3:
-    st.metric(
-        "Total Weighted Deposit (UST)",
-        value=f"${total_deposit_ust_weighted:,.0f}",
-    )
-
-st.text("")
-st.text("")
-
-col0, col1, col36, col9, col1215, col18, col00 = st.columns([0.5, 2, 4, 4, 4, 4, 1])
-with col36:
+    st.text("")
     st.metric(
         "Your LVN Tokens",
         value=f"{my_lvn_tokens:,.0f}",
     )
-with col9:
+    st.text("")
+    st.metric("Your Deposit (UST)", value=f"${my_total_deposit_ust:,.0f}")
+
+my_lvn_tokens_ust = my_lvn_tokens * lvn_price
+try:
+    my_roi = my_lvn_tokens_ust / my_total_deposit_ust
+except ZeroDivisionError:
+    my_roi = 0
+
+with col912:
+    st.text("")
     st.metric(
         "Your LVN Tokens (UST)",
         value=f"${my_lvn_tokens_ust:,.0f}",
     )
-
-with col1215:
-    st.metric(
-        "Your Share Of Weighted Deposit",
-        value=f"{my_percent_weighted*100:,.3f}%",
-    )
-
-with col18:
-
+    st.text("")
+    st.metric("Total Deposit (UST)", value=f"${total_deposit_ust:,.0f}")
+    st.text("")
+    st.text("")
     st.metric(
         "Your ROI",
         value=f"{my_roi:,.2f}x",
     )
 
 
-#
-total_lvn_tokens = 35_000_000
+with col2:
+    total_points = total_deposit_ust_weighted
+    points = [(ml3m+ee3m) * weights[0],
+    (ml6m+ee6m) * weights[1],
+    (ml9m+ee9m) * weights[2],
+    (ml12m+ee12m) * weights[3],
+    (ml15m+ee15m) * weights[4],
+    (ml18m+ee18m) * weights[5]]
+    print(points, total_deposit_ust_weighted, sum(points))
+    roi =[((pp/total_points)*total_lvn*lvn_price)/(pp/weights[i]) for i,pp in enumerate(points)]
+    df = pd.DataFrame([[round(roi[0]),'3 mmonths',f"{round(roi[0],2)}x"],
+            [round(roi[1]),'6 mmonths',f"{round(roi[1],2)}x"],
+            [round(roi[2]),'9 mmonths',f"{round(roi[2],2)}x"],
+            [round(roi[3]),'12 mmonths',f"{round(roi[3],2)}x"],
+            [round(roi[4]),'15 mmonths',f"{round(roi[4],2)}x"],
+            [round(roi[5]),'18 mmonths',f"{round(roi[5],2)}x"],], columns=['ROI','Lockup period','ROI x'])
+    st.altair_chart(simulation_apr_chart(df), use_container_width=True)
+
 
 st.markdown(
     """
     <style>
+    .block-container
+    {
+        padding-bottom: 0rem;
+        padding-top: 4rem;
+    }
     .css-1nnn0hm input {
         text-align: center;
     }
@@ -280,6 +306,15 @@ st.markdown(
     [data-testid="stMetricValue"]{
         font-size: 20px
     }
+    [data-testid="stHeader"]{
+        display:none
+    }
+    @media (min-width:800px) {
+        .main{
+        overflow: hidden;
+    }
+    }
+    
     </style>
     """,
     unsafe_allow_html=True,
