@@ -78,7 +78,7 @@ col0, col1, col3, col6, col9, col12, col15, col18, col00 = st.columns(
     [0.5, 2, 2, 2, 2, 2, 2, 2, 1]
 )
 with col1:
-    st.markdown("##### Everyone elses", unsafe_allow_html=True)
+    st.markdown("##### Everyone Else's", unsafe_allow_html=True)
 with col3:
     ee3m = st.number_input(
         "3 Months", value=3_000_000, key="ee3m", step=10, min_value=0
