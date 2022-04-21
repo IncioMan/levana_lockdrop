@@ -310,7 +310,7 @@ st.markdown(
         display:none
     }
     @media (min-width:1201px) {
-        .block{
+        .block-container{
             padding-top: 2rem;
         }
     }
