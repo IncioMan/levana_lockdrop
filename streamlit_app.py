@@ -227,6 +227,11 @@ with col2:
 st.markdown(
     """
     <style>
+    #MainMenu {display: none;}
+    #footer {display: none;}
+    .css-sfupiu{
+        display: none;
+    }
     .block-container
     {
         padding-bottom: 0rem;
