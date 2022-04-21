@@ -163,9 +163,6 @@ total_deposit_ust_weighted = (
 )
 
 total_lvn = 35_000_000
-
-st.text("")
-
 my_percent_weighted = my_total_deposit_ust_weighted / total_deposit_ust_weighted
 my_lvn_tokens = my_percent_weighted * total_lvn
 
