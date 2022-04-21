@@ -309,7 +309,7 @@ st.markdown(
     [data-testid="stHeader"]{
         display:none
     }
-    @media (min-width:800px) {
+    @media (min-width:1201px) {
         .main{
         overflow: hidden;
     }
