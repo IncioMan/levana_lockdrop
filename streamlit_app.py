@@ -215,12 +215,12 @@ with col2:
     (ml18m+ee18m) * weights[5]]
     print(points, total_deposit_ust_weighted, sum(points))
     roi =[((pp/total_points)*total_lvn*lvn_price)/(pp/weights[i]) for i,pp in enumerate(points)]
-    df = pd.DataFrame([[round(roi[0]),'3 mmonths',f"{round(roi[0],2)}x"],
-            [round(roi[1]),'6 mmonths',f"{round(roi[1],2)}x"],
-            [round(roi[2]),'9 mmonths',f"{round(roi[2],2)}x"],
-            [round(roi[3]),'12 mmonths',f"{round(roi[3],2)}x"],
-            [round(roi[4]),'15 mmonths',f"{round(roi[4],2)}x"],
-            [round(roi[5]),'18 mmonths',f"{round(roi[5],2)}x"],], columns=['ROI','Lockup period','ROI x'])
+    df = pd.DataFrame([[round(roi[0]),'3 months',f"{round(roi[0],2)}x"],
+            [round(roi[1]),'6 months',f"{round(roi[1],2)}x"],
+            [round(roi[2]),'9 months',f"{round(roi[2],2)}x"],
+            [round(roi[3]),'12 months',f"{round(roi[3],2)}x"],
+            [round(roi[4]),'15 months',f"{round(roi[4],2)}x"],
+            [round(roi[5]),'18 months',f"{round(roi[5],2)}x"],], columns=['ROI','Lockup period','ROI x'])
     st.altair_chart(simulation_apr_chart(df), use_container_width=True)
 
 
