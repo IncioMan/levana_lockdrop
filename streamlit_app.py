@@ -308,13 +308,7 @@ st.markdown(
     }
     [data-testid="stHeader"]{
         display:none
-    }
-    @media (min-width:1201px) {
-        .main{
-        overflow: hidden;
-    }
-    }
-    
+    }    
     </style>
     """,
     unsafe_allow_html=True,
