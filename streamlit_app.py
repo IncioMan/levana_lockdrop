@@ -230,7 +230,7 @@ st.markdown(
     .block-container
     {
         padding-bottom: 0rem;
-        padding-top: 4rem;
+        padding-top: 2rem;
     }
     .css-1nnn0hm input {
         text-align: center;
@@ -306,9 +306,9 @@ st.markdown(
     [data-testid="stHeader"]{
         display:none
     }
-    @media (min-width:1201px) {
+    @media (min-height:750px) {
         .block-container{
-            padding-top: 2rem;
+            padding-top: 4rem;
         }
     }
     
