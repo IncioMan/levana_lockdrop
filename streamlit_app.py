@@ -263,6 +263,8 @@ st.markdown(
     }
     .st-bt{
         border: none;
+        border-bottom: solid;
+        border-bottom-width: 1px;
         border-radius: 0px;
         background:none;
     }
