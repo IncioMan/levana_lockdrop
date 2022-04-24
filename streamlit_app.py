@@ -56,6 +56,19 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown(
+    f"""
+    <div class="banner" style=\"width: 100%;padding-bottom:48px;float: left;z-index: 1;display: flex;justify-content:center;\">
+        <div style=\"border: solid 0.5px; padding: 10px;border-radius: 10px;\">
+            This tool was created for educational purposes only. Not financial advice. Full disclaimer 
+            <a href="https://lockdropdisclaimer.levana.finance">
+                here   
+            </a></div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 # main body
 col0, col1, col3, col6, col9, col12, col15, col18, col00 = st.columns(
     [0.5, 2, 2, 2, 2, 2, 2, 2, 1]
@@ -169,11 +182,12 @@ my_lvn_tokens = my_percent_weighted * total_lvn
 col0, col1, col36, col912, col2, col00 = st.columns([0.5, 2,4,4,8, 1])
 with col36:
     lvn_price = st.number_input(
-        "LVN Price",
+        "LVN Price ($)",
         key="lvnprice",
         value=1.0,
         step=0.1,
         min_value=0.1,
+        format="%f"
     )
     st.text("")
     st.metric(
@@ -213,8 +227,12 @@ with col2:
     (ml12m+ee12m) * weights[3],
     (ml15m+ee15m) * weights[4],
     (ml18m+ee18m) * weights[5]]
-    print(points, total_deposit_ust_weighted, sum(points))
-    roi =[((pp/total_points)*total_lvn*lvn_price)/(pp/weights[i]) for i,pp in enumerate(points)]
+    roi = []
+    for i,pp in enumerate(points):
+        if(total_points==0.0 or weights[i]==0.0 or pp==0):
+            roi.append(0)
+        else:
+            roi.append(((pp/total_points)*total_lvn*lvn_price)/(pp/weights[i]))
     df = pd.DataFrame([[round(roi[0],2),'3 months',f"{round(roi[0],2)}x"],
             [round(roi[1],2),'6 months',f"{round(roi[1],2)}x"],
             [round(roi[2],2),'9 months',f"{round(roi[2],2)}x"],
